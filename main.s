@@ -5,29 +5,30 @@
 .align 4
 
 gameArray: 
+.word 4
+.word 2
 .word 0
+.word 2
+
+.word 2
+.word 4
 .word 0
+.word 2
+
+.word 2
+.word 2
 .word 0
-.word 0
+.word 2
 
 .word 0
-.word 0
-.word 0
-.word 0
-
-.word 0
-.word 0
-.word 0
-.word 0
-
-.word 0
-.word 0
-.word 0
-.word 0
+.word 2
+.word 2
+.word 2
 
 points:
 .word 0 
 
+.equ JTAG, 0x10001000
 
 #-----------------------------------------
 
@@ -36,17 +37,25 @@ points:
 .global main
 .global down
 .global up
+.global mover
 main: 
 
 initializationOfValues: 
 movia r8, gameArray
-#movi r9, 2
-#stw r9, 0(r8)
-
 #Poll for the values here
 
+POLL:
+  movia r10, JTAG /* r10 now contains the base address */
+  ldwio r11, 0(r10) /* Load from the JTAG */
+  andi  r12, r11, 0x8000 /* Mask other bits */
+  beq   r12, r0, POLL /* If this is 0 (branch true), data is not valid */
+VALID: 
+  andi r11, r11, 0x00FF
+  
 
-movi r4, 1
+  
+  
+movi r4, 4
 call mover
 
 LOOP_FOREVER:
@@ -54,9 +63,8 @@ LOOP_FOREVER:
 
 
 
-
+#------------------------------------------------------------
 mover:
-
 addi sp, sp, -4
 stw ra, 0(sp)
 
@@ -103,14 +111,9 @@ ldw ra, 0(sp)
 addi sp, sp, 4
 
 ret
-
-
-
-
+#------------------------------------------------------------
+	
 left:
-ret
-
-right: 
 ret
 
 

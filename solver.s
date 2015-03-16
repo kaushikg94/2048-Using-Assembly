@@ -1,7 +1,6 @@
 .include "nios_macros.s"
 .text 
 
-
 #------------------------------------------------------------
 down: 
 subi sp, sp, 24
@@ -308,9 +307,161 @@ ldw r11, 16(sp)
 ldw r10, 20(sp)
 addi sp,sp,24
 
+ret
+#------------------------------------------------------------
+right: 
+subi sp, sp, 24
+stw r15, 0(sp)
+stw r14, 4(sp)
+stw r13, 8(sp)
+stw r12, 12(sp)
+stw r11, 16(sp)
+stw r10, 20(sp)
+#------------------------
+mov r16,r4
+movi r10, 1
+stepright1:
+ldw r17,0(r16)
+ldw r18,4(r16)
+ldw r19,8(r16)
+ldw r20,12(r16)
+#------------------------
+beq r19, r0, keepstaticright34
+beq r19, r20, mergeright34
+beq r19, r0, shiftright34
+bne r19, r20, keepstaticright34
+#------------------------
+stepright2: 
+ldw r17,0(r16)
+ldw r18,4(r16)
+ldw r19,8(r16)
+ldw r20,12(r16)
+
+beq r18, r0, keepstaticright23
+beq r18, r19, mergeright23
+cmpeqi r15, r19, 0 
+cmpeqi r14, r20, 0 
+movi r13, 1
+beq r14, r13, shiftright231
+beq r15, r13, shiftright232
+br keepstaticright23
+#------------------------
+stepright3: 
+ldw r17,0(r16)
+ldw r18,4(r16)
+ldw r19,8(r16)
+ldw r20,12(r16)
+
+beq r17, r0, keepstaticright12
+beq r17, r18, mergeright12
+cmpeqi r12, r18, 0 
+cmpeqi r15, r19, 0 
+cmpeqi r14, r20, 0  
+movi r13, 1 
+beq r14, r13, shiftright121
+beq r15, r13, shiftright122
+beq r12, r13, shiftright123
+br keepstaticright12
+
+#------------------------
+mergeright34:
+muli r20, r20, 2
+stw r20, 12(r16)
+stw r0, 8(r16) 
+
+mov r21, r5
+ldw r22, 0(r21)
+addi r22, r22, 1
+stw r22, 0(r21)
+
+br stepright2
+
+shiftright34:
+stw r19, 12(r16)
+mov r19, r0
+stw r19, 8(r16) 
+br stepright2
+
+keepstaticright34: 
+br stepright2
+
+#------------------------
+mergeright23: 
+muli r19, r19, 2
+stw r19, 8(r16)
+stw r0, 4(r16)
+
+mov r21, r5
+ldw r22, 0(r21)
+addi r22, r22, 1
+stw r22, 0(r21)
+
+br stepright3
+
+shiftright231:
+stw r18, 12(r16)
+stw r0, 4(r16) 
+br stepright3
+
+shiftright232: 
+stw r18, 8(r16)
+stw r0, 4(r16)
+br stepright3
+
+keepstaticright23:
+br stepright3
+#------------------------
+mergeright12: 
+muli r18, r18, 2
+stw r18, 4(r16)
+stw r0, 0(r16)
+
+mov r21, r5
+ldw r22, 0(r21)
+addi r22, r22, 1
+stw r22, 0(r21)
+br recallHandlerright
+
+shiftright121:
+stw r17, 12(r16)
+stw r0, 0 (r16)
+br recallHandlerright
+
+shiftright122:
+stw r17, 8(r16)
+stw r0, 0(r16)
+br recallHandlerright
+
+shiftright123:
+stw r17, 4(r16)
+stw r0, 0(r16)
+br recallHandlerright
+
+keepstaticright12:
+br recallHandlerright
+#------------------------
+recallHandlerright: 
+movi r18, 4 
+beq r10, r18, finishright
+mov r11, r10
+muli r11, r11, 16
+mov r16, r4
+add r16, r16, r11
+addi r10, r10, 1
+br stepright1
+
+#------------------------
+finishright: 
+ldw r15, 0(sp)
+ldw r14, 4(sp)
+ldw r13, 8(sp)
+ldw r12, 12(sp)
+ldw r11, 16(sp)
+ldw r10, 20(sp)
+addi sp,sp,24
 
 ret
-
+#------------------------------------------------------------
 
 
 
