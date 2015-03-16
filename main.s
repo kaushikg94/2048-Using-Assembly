@@ -35,6 +35,7 @@ points:
 
 .global main
 .global down
+.global up
 main: 
 
 initializationOfValues: 
