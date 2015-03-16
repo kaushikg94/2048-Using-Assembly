@@ -5,25 +5,25 @@
 .align 4
 
 gameArray: 
-.word 4
-.word 2
 .word 0
-.word 2
-
-.word 2
-.word 4
 .word 0
-.word 2
-
-.word 2
-.word 2
 .word 0
-.word 2
+.word 0
 
 .word 0
-.word 2
-.word 2
-.word 2
+.word 0
+.word 0
+.word 0
+
+.word 0
+.word 0
+.word 0
+.word 0
+
+.word 0
+.word 0
+.word 0
+.word 0
 
 points:
 .word 0 
