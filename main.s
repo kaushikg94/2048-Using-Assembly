@@ -88,9 +88,11 @@ movia r10, received
 mov r12, r0
 stw r12, 0(r10)
 
-  
-#movi r4, 4
-#call mover
+mov r4, r4
+call mover
+
+#movia r4, gameArray
+#movia r5, 
 
 LOOP_FOREVER:
     br infiniteLoopForInterruptHere     
@@ -102,16 +104,16 @@ mover:
 addi sp, sp, -4
 stw ra, 0(sp)
 
-movi r16, 1 
+movi r16, 0x073
 beq r16, r4, moveDown
 
-addi r16,r16,1
+movi r16, 0x077
 beq r16, r4, moveUp
 
-addi r16,r16,1
+movi r16, 0x061
 beq r16, r4, moveLeft
 
-addi r16,r16,1
+movi r16, 0x064
 beq r16, r4, moveRight
 
 moveDown:
@@ -146,10 +148,6 @@ addi sp, sp, 4
 
 ret
 #------------------------------------------------------------
-	
-left:
-ret
-
 #------------------------------------------------------------
 #------------------------------------------------------------
 #------------------------------------------------------------
@@ -183,17 +181,17 @@ stw r23,84(sp)
 
 rdctl et,ctl4
 andi r8,et,0x10000000
-beq r8,r0,UART_INTERRUPT
+beq r8,r0,uartInt
 
-UART_INTERRUPT:
+uartInt:
 movia et,UART_TERMINAL
 ldwio r8,0(et)
 andi r8,r8,0xFF
 movia r10, received
 stw r8,0(r10)
-br EXIT_IHANDLER
+br exitHandler
 
-EXIT_IHANDLER:
+exitHandler:
 ldw r2,0(sp)
 ldw r3,4(sp)
 ldw r4,8(sp)

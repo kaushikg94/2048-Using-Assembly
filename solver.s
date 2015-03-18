@@ -1,7 +1,7 @@
 .include "nios_macros.s"
 .text 
 
-#------------------------------------------------------------
+#-------------------------DOWN-----------------------------------
 down: 
 subi sp, sp, 24
 stw r15, 0(sp)
@@ -155,7 +155,7 @@ addi sp,sp,24
 
 ret
 #------------------------------------------------------------
-#------------------------------------------------------------
+#------------------------UP------------------------------------
 up: 
 subi sp, sp, 24
 stw r15, 0(sp)
@@ -309,6 +309,7 @@ addi sp,sp,24
 
 ret
 #------------------------------------------------------------
+#------------------RIGHT------------------------------------------
 right: 
 subi sp, sp, 24
 stw r15, 0(sp)
@@ -462,8 +463,159 @@ addi sp,sp,24
 
 ret
 #------------------------------------------------------------
+#-----------------------LEFT-------------------------------------
+left: 
+subi sp, sp, 24
+stw r15, 0(sp)
+stw r14, 4(sp)
+stw r13, 8(sp)
+stw r12, 12(sp)
+stw r11, 16(sp)
+stw r10, 20(sp)
+#------------------------
+mov r16,r4
+movi r10, 1
+uleft_step1:
+ldw r17,0(r16)
+ldw r18,4(r16)
+ldw r19,8(r16)
+ldw r20,12(r16)
+#------------------------
+beq r18, r0, left_keepstatic43
+beq r18, r17, left_merge43
+beq r18, r0, left_shift43
+bne r18, r17, left_keepstatic43
+#------------------------
+uleft_step2: 
+ldw r17,0(r16)
+ldw r18,4(r16)
+ldw r19,8(r16)
+ldw r20,12(r16)
 
+beq r19, r0, left_keepstatic32
+beq r19, r18, left_merge32
+cmpeqi r15, r18, 0 
+cmpeqi r14, r17, 0 
+movi r13, 1
+beq r14, r13, left_shift321
+beq r15, r13, left_shift322
+br left_keepstatic32
+#------------------------
+uleft_step3: 
+ldw r17,0(r16)
+ldw r18,4(r16)
+ldw r19,8(r16)
+ldw r20,12(r16)
 
+beq r20, r0, left_keepstatic21
+beq r20, r19, left_merge21
+cmpeqi r12, r19, 0 
+cmpeqi r15, r18, 0 
+cmpeqi r14, r17, 0  
+movi r13, 1 
+beq r14, r13, left_shift211
+beq r15, r13, left_shift212
+beq r12, r13, left_shift213
+br left_keepstatic21
+
+#------------------------
+left_merge43:
+muli r17, r17, 2
+stw r17, 0(r16)
+stw r0, 4(r16) 
+
+mov r21, r5
+ldw r22, 0(r21)
+addi r22, r22, 1
+stw r22, 0(r21)
+
+br uleft_step2
+
+left_shift43:
+stw r18, 0(r16)
+mov r18, r0
+stw r18, 4(r16) 
+br uleft_step2
+
+left_keepstatic43: 
+br uleft_step2
+
+#------------------------
+left_merge32: 
+muli r18, r18, 2
+stw r18, 4(r16)
+stw r0, 8(r16)
+
+mov r21, r5
+ldw r22, 0(r21)
+addi r22, r22, 1
+stw r22, 0(r21)
+
+br uleft_step3
+
+left_shift321:
+stw r19, 0(r16)
+stw r0, 8(r16) 
+br uleft_step3
+
+left_shift322: 
+stw r19, 4(r16)
+stw r0, 8(r16)
+br uleft_step3
+
+left_keepstatic32:
+br uleft_step3
+#------------------------
+left_merge21: 
+muli r19, r19, 2
+stw r19, 8(r16)
+stw r0, 12(r16)
+
+mov r21, r5
+ldw r22, 0(r21)
+addi r22, r22, 1
+stw r22, 0(r21)
+br left_recallHandlerup
+
+left_shift211:
+stw r20, 0(r16)
+stw r0, 12 (r16)
+br left_recallHandlerup
+
+left_shift212:
+stw r20, 4(r16)
+stw r0, 12(r16)
+br left_recallHandlerup
+
+left_shift213:
+stw r20, 8(r16)
+stw r0, 12(r16)
+br left_recallHandlerup
+
+left_keepstatic21:
+br left_recallHandlerup
+#------------------------
+left_recallHandlerup: 
+movi r19, 4 
+beq r10, r19, left_finishUp
+mov r11, r10
+muli r11, r11, 16
+mov r16, r4
+add r16, r16, r11
+addi r10, r10, 1
+br uleft_step1
+
+#------------------------
+left_finishUp: 
+ldw r15, 0(sp)
+ldw r14, 4(sp)
+ldw r13, 8(sp)
+ldw r12, 12(sp)
+ldw r11, 16(sp)
+ldw r10, 20(sp)
+addi sp,sp,24
+
+ret
 
 
 
