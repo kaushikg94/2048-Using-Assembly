@@ -7,9 +7,9 @@
 .equ ADDR_CHAR, 0x09000000
 .equ BACKGROUND_COLOR, 0xffdd
 .equ BOX_COLOR, 0xbd74
-.equ MY_COLOR, 0xffff
-.equ X_LIMIT,0x01
+.equ MY_COLOR, 0xcE16
 .equ Y_LIMIT,0x01
+.equ X_LIMIT,0x01
 .data                  
 .align 2
 
@@ -24,14 +24,37 @@ plotter_y_min:
 .word 0
 plotter_y_max:
 .word 0
-
+char_x:
+.word 0
+char_y:
+.word 0
 
 #-----------------------------------------
 
 .text                  # "text" section for (read-only) code
+#-------------------------------------------------------------------
+refreshScreen: 
+addi sp, sp, -4
+stw ra, 0(sp)
 
-VGAFUNCTION: 
+ldw ra, 0(sp)
+addi sp, sp, 4	
+ret
 
+
+#-------------------------------------------------------------------
+firstScreen: 
+addi sp, sp, -4
+stw ra, 0(sp)
+
+#movi r4, 99
+#movi r5, 78
+#call setChar
+#movi r4, 0x41
+#call writeChar
+
+
+#Full Screen Color
  movi r4, 0
  movi r5, 319
  movi r6, 0
@@ -40,6 +63,7 @@ VGAFUNCTION:
 	call setTheBox
 	call makeThebox
 
+#Overall Box
  movi r4, 79
  movi r5, 237
  movi r6, 59
@@ -48,6 +72,8 @@ VGAFUNCTION:
 	call setTheBox
 	call makeThebox
 
+#Little Boxes
+#box 1
  movi r4, 83
  movi r5, 114
  movi r6, 63
@@ -56,22 +82,153 @@ VGAFUNCTION:
 	call setTheBox
 	call makeThebox
 
-	 movi r4, 122
+#box 5	
+ movi r4, 83
+ movi r5, 114
+ movi r6, 102
+ movi r7, 133
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox	
+
+#box 9
+ movi r4, 83
+ movi r5, 114
+ movi r6, 141
+ movi r7, 172
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox	
+
+#box 13	
+ movi r4, 83
+ movi r5, 114
+ movi r6, 180
+ movi r7, 211
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox	
+
+#box 2	
+ movi r4, 122
+ movi r5, 153
+ movi r6, 62
+ movi r7, 94
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox	
+
+#box 6
+ movi r4, 122
  movi r5, 153
  movi r6, 102
  movi r7, 133
  movia r8, MY_COLOR
 	call setTheBox
+	call makeThebox	
+
+#box 10
+ movi r4, 122
+ movi r5, 153
+ movi r6, 141
+ movi r7, 172
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox	
+
+#box 14
+ movi r4, 122
+ movi r5, 153
+ movi r6, 180
+ movi r7, 211
+ movia r8, MY_COLOR
+	call setTheBox
 	call makeThebox
+
+#box 3
+ movi r4, 161
+ movi r5, 192
+ movi r6, 63
+ movi r7, 94
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox	
+
+#box 7
+ movi r4, 161
+ movi r5, 192
+ movi r6, 102
+ movi r7, 133
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox	
+
+#box 11
+ movi r4, 161
+ movi r5, 192
+ movi r6, 141
+ movi r7, 172
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox	
+	
+#box 15	
+ movi r4, 161
+ movi r5, 192
+ movi r6, 180
+ movi r7, 211
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox	
+
+#box 4	
+ movi r4, 200
+ movi r5, 231
+ movi r6, 63
+ movi r7, 94
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox		
+	
+#box 8	
+ movi r4, 200
+ movi r5, 231
+ movi r6, 102
+ movi r7, 133
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox			
+	
+#box 12
+ movi r4, 200
+ movi r5, 231
+ movi r6, 141
+ movi r7, 172
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox			
+	
+#box 16	
+ movi r4, 200
+ movi r5, 231
+ movi r6, 180
+ movi r7, 211
+ movia r8, MY_COLOR
+	call setTheBox
+	call makeThebox			
+	
+	movi r2, ADDR_CHAR
+movi  r5, 0x41   /* ASCII for 'A' */
+sthio r5,132(r2) /* pixel (99,78) is 99*2 + 78*1024 so (198 + 1024 = 1032) */
+
 	
 	
-	help:
-	
-	br help
-	
+#need to make a return to r4. 	
+ldw ra, 0(sp)
+addi sp, sp, 4	
 	
 	ret
-
+#-------------------------------------------------------------------
 makeThebox:
  movia r2, plotter_color
  ldh r4, 0(r2)
@@ -122,9 +279,10 @@ makeThebox:
  exitXloop:
 	#leave everything
 	
+
 ret
 
-
+#-------------------------------------------------------------------
 setTheBox: 
 
  #storing values:
@@ -145,6 +303,31 @@ setTheBox:
  sth r8, 0(r2)
  
  ret
+#-------------------------------------------------------------------
+setChar: 
+movia r9, char_x
+stw r4, 0(r9)
+
+movia r9, char_y
+stw r5, 0(r9)
+
+ret
+
+writeChar: 
+movia r9, char_x
+ldw r9, 0(r9)
+movia r8, char_y
+ldw r8, 0(r8)
+muli r9,r9, 1
+muli r8,r8, 128
+add r9,r9,r8
+movia r8, ADDR_CHAR
+add r9, r9, r8
+stbio r4, 0(r9)
+
+ret 
+
+
 
 
 

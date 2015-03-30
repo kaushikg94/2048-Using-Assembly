@@ -49,7 +49,11 @@ received:
 .global down
 .global up
 .global mover
+.global firstScreen
 main: 
+
+#testing call to VGAFUNCTION
+call firstScreen
 
 initializationOfValues: 
 movia r8, gameArray
@@ -93,6 +97,8 @@ call mover
 
 #movia r4, gameArray
 #movia r5, 
+
+
 
 LOOP_FOREVER:
     br infiniteLoopForInterruptHere     
