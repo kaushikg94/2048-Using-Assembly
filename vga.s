@@ -1,6 +1,5 @@
 .include "nios_macros.s"
 
-
 .equ RED_LEDS, 0x10000000
 .equ GREEN_LEDS, 0x10000010     
 .equ ADDR_VGA, 0x08000000
@@ -10,7 +9,22 @@
 .equ MY_COLOR, 0xcE16
 .equ Y_LIMIT,0x01
 .equ X_LIMIT,0x01
-.data                  
+.data
+
+.align 4
+numberBasedColors: 
+.hword 0
+.hword 0
+.hword 0
+.hword 0
+.hword 0
+.hword 0
+.hword 0
+.hword 0
+.hword 0
+.hword 0
+.hword 0
+               
 .align 2
 
 plotter_color:
@@ -46,12 +60,6 @@ ret
 firstScreen: 
 addi sp, sp, -4
 stw ra, 0(sp)
-
-#movi r4, 99
-#movi r5, 78
-#call setChar
-#movi r4, 0x41
-#call writeChar
 
 
 #Full Screen Color
@@ -217,12 +225,6 @@ stw ra, 0(sp)
 	call setTheBox
 	call makeThebox			
 	
-	movi r2, ADDR_CHAR
-movi  r5, 0x41   /* ASCII for 'A' */
-sthio r5,132(r2) /* pixel (99,78) is 99*2 + 78*1024 so (198 + 1024 = 1032) */
-
-	
-	
 #need to make a return to r4. 	
 ldw ra, 0(sp)
 addi sp, sp, 4	
@@ -310,7 +312,6 @@ stw r4, 0(r9)
 
 movia r9, char_y
 stw r5, 0(r9)
-
 ret
 
 writeChar: 
@@ -324,9 +325,20 @@ add r9,r9,r8
 movia r8, ADDR_CHAR
 add r9, r9, r8
 stbio r4, 0(r9)
-
 ret 
+#-------------------------------------------------------------------
+vgaRefresh:
+addi sp, sp, -4
+stw ra, 0(sp)
+iterate: 
+muli r8, r8, 1
 
+
+
+
+ldw ra, 0(sp)
+addi sp, sp, 4
+ret
 
 
 
