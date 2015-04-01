@@ -330,15 +330,55 @@ ret
 vgaRefresh:
 addi sp, sp, -4
 stw ra, 0(sp)
-iterate: 
-muli r8, r8, 1
+
+movia r8, 83
+movi r9, 63 
+movi r10, 1
+movi r11, 1 
+
+movi r23, 4 
+beq r11, r23, reset
+movi r23, 4 
+beq r10, r23, exit
+
+br continue
+
+reset: 
+addi r10, r10, 1
+movi r11, r11, 1 
 
 
 
 
-ldw ra, 0(sp)
-addi sp, sp, 4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exit: 
+
 ret
+
 
 
 
