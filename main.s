@@ -52,8 +52,12 @@ received:
 .global firstScreen
 main: 
 
+#initialization of the stack pointer 
+movia sp, 0x2000
+
+
 #testing call to VGAFUNCTION
-call firstScreen
+#call firstScreen
 
 initializationOfValues: 
 movia r8, gameArray
