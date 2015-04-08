@@ -3,6 +3,11 @@
 
 #-------------------------DOWN-----------------------------------
 down: 
+#This function moves the array values down
+#It requires parameter(s) gameArray and points to be sent as 
+# r4, r5 respectively
+# It returns nothing but moves the array down
+
 subi sp, sp, 24
 stw r15, 0(sp)
 stw r14, 4(sp)
@@ -157,6 +162,11 @@ ret
 #------------------------------------------------------------
 #------------------------UP------------------------------------
 up: 
+#This function moves the array values up
+#It requires parameter(s) gameArray and points to be sent as 
+# r4, r5 respectively
+# It returns nothing but moves the array up
+
 subi sp, sp, 24
 stw r15, 0(sp)
 stw r14, 4(sp)
@@ -311,6 +321,11 @@ ret
 #------------------------------------------------------------
 #------------------RIGHT------------------------------------------
 right: 
+#This function moves the array values right
+#It requires parameter(s) gameArray and points to be sent as 
+# r4, r5 respectively
+# It returns nothing but moves the array right
+
 subi sp, sp, 24
 stw r15, 0(sp)
 stw r14, 4(sp)
@@ -465,6 +480,11 @@ ret
 #------------------------------------------------------------
 #-----------------------LEFT-------------------------------------
 left: 
+#This function moves the array values left
+#It requires parameter(s) gameArray and points to be sent as 
+# r4, r5 respectively
+# It returns nothing but moves the array left
+
 subi sp, sp, 24
 stw r15, 0(sp)
 stw r14, 4(sp)
@@ -617,14 +637,35 @@ addi sp,sp,24
 
 ret
 
+#------------------------
+#------------------------
+#------------------------
+victoryCheck: 
+#takes in r4 as gameArray register 
+#takes in r5 as winOrNot data
+#returns nothing 
+#if win, puts winor not as 1
+#if no win (doesn't mean loss), does nothing
 
+mov r8, r4 
+movi r9, 16
+movi r11, 2048
 
+loopVictoryChecker: 
+beq r9, r0, overAndOut
+ldw r10, 0(r8)
+beq r10, r11, winCase
+addi r8, r8, 4
+addi r9, r9, -1
+br loopVictoryChecker
 
+winCase: 
+movi r6, 1
+stw r6, 0(r5)
+br overAndOut
 
-
-
-
-
+overAndOut:
+ret
 
 
 
