@@ -1192,7 +1192,7 @@ ret
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 makeThepic:
-#It takes in no parameters but it needs to be called AFTER calling setthebox 
+#It takes in no parameters
 #function. 
 #it returns nothing. 
 #It draws a box on the VGA screen

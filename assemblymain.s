@@ -24,7 +24,7 @@ gameArray:
 .word 0
 .word 0
 
-.word 0
+.word 1024
 .word 0
 .word 0
 .word 0
@@ -210,6 +210,7 @@ eret
 .global movementSound
 .global lcdwrite
 .global makeThepic
+.global playSong
 
 assemblyMain: 
 
@@ -286,13 +287,16 @@ movia r4, gameArray
 call vgarefresher
 call movementSound
 
-#movia r4, gameArray
-#movia r5, winOrNot
-#call victoryCheck
-#movia r2, winOrNot
-#ldw r2, 0(r2)
-#movi r3, 1
-#beq r2, r3, victoryLap1
+movia r4, gameArray
+movia r5, winOrNot
+call victoryCheck
+movia r2, winOrNot
+ldw r2, 0(r2)
+movi r3, 1
+beq r2, r3, victoryLap1
+movi r3, -1
+beq r2, r3, lossOfAllTime
+
 
 br LOOP_FOREVER
 
@@ -300,6 +304,21 @@ br LOOP_FOREVER
 LOOP_FOREVER:
     br infiniteLoopForInterruptHere     
 
+	
+victoryLap1: 
+movia r4, winPic
+call makeThepic
+call playSong
+br infinite
+
+lossOfAllTime:
+movia r4, losePic
+call makeThepic
+br infinite	
+
+infinite:
+br infinite	
+	
 
 
 #------------------------------------------------------------
