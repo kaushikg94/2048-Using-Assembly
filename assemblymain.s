@@ -308,12 +308,16 @@ LOOP_FOREVER:
 victoryLap1: 
 movia r4, winPic
 call makeThepic
+movia r4, sentenceYouWin
+call lcdwrite
 call playSong
 br infinite
 
 lossOfAllTime:
 movia r4, losePic
 call makeThepic
+movia r4, sentenceYouLose
+call lcdwrite
 br infinite	
 
 infinite:
