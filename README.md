@@ -1,29 +1,58 @@
 
-# Nios 2 Assembly Implementation of 2048 Game
-----------------------------------------------
+# Nios-2 Assembly Implementation of 2048 Game
+
+This project was made by [Henry Chen](https://github.com/Nothingtop) and [Gokul Kaushik](https://github.com/kaushikg94) for the ECE243 course's group project requirements. The document for the requirements is available [here](Documents/ProjectProposalForm.docx).
+
 ## The Original Game
-=====================
+
 ### Gabriel Cirulli 
-The original 2048 game was developed by [**Gabriele Cirulli**](<http://gabrielecirulli.com>). Credits to him for the **entire** game idea.
+The original 2048 game was developed by [Gabriele Cirulli](<http://gabrielecirulli.com>). It is playable [here](<http://gabrielecirulli.github.io/2048/>).
+
 ### Game Play
-The original game, (playable [**here**](<http://gabrielecirulli.github.io/2048/>)) is based on the idea of merging two blocks of equal number to form a third block which is the sum of the two (which is 2x the block as they are equal). The blocks start at 2 and all merges will result in block values to the power of two. The game is limited by a 4-by-4 matrix where each block takes a 1-by-1 space in the matrix. Hence there can only be 16 blocks in the game at most. Every move (up, down, left or right) that is made by the player results in the shift of **all** the blocks in that direction. Every move by the player results in a block being added by the AI. Typically blocks are added in the reverse direction (e.g. if you move left, the AI tends to put a block on the rightmost sqaure),but this is subject to there being space in that direction. To win, one must keep playing till the "2048" block is reached (hence the name). One looses when there are no directional moves available with the given blocks (i.e. the board is full and you can't merge anything).
+The game is fairly intutive to play. I suggest you go to the link above and play it before reading this. It will make understanding what's written below easier.
+
+1. The game consists of a 4-by-4 block grid i.e. 16 blocks. In the begining, one of the bottom most blocks is given the number 2. 
+2. By using the keyboard keys to move up, down, left or right, the block moves in given direction. 
+3. Every move generates a new block into the grid (in the begining, it is a 2 and as the game progresses it becomes random). 
+4. Everytime you move two blocks of equal value onto each other they merge to form the sum of their values i.e. a 2 and 2 become a 4, a 4 and 4 become an 8 and so on. 
+5. The victory condition is to keep merging the blocks until you get 2048 (which is the 11th power of 2). 
+6. The loss condition is when the grid is filled up (i.e. 16 slots), no more merge moves are possible, and the number 2048 is not on the grid.
 
 ## My Implementation
-=====================
-### Tools and Languages
-Languages Used:
 
-1. Nios-II Assembly Language ([guide](https://www.altera.com/en_US/pdfs/literature/hb/nios2/n2cpu_nii51017.pdf)) - 90% of the program
-2. C-Language - Entry point, `rand()` Function
+We implemented the game described above using the following hardware: 
 
-Devices Used: 
+1. Altera DE-2 Board 
+2. USB (JTAG UART) Keyboard
+3. VGA Monitor
+4. Speakers
 
-1. Altera DE2 Board
-2. Monitor
-3. Speakers
-4. JTAG-UART Keyboard
+The software used was: 
+
+1. Altera Quartus
+2. Altera University Monitor Program
+
+The project's code was written in: 
+
+1. Nios-2 Assembler (around 90% of the program) 
+2. C (for the entry point and the `rand()` function)
+
+It would have been less time consuming to write the enire project using C. However, ECE243 is a course about how low level assemblers work. Therefore the marking scheme prioritizes using Assembly code.
 
 ### I/O Visualization
 
+A diagram of the visualization can be found [here](documents/io_diagram.jpg).
 
+In summary, the outputs from the DE2 are: 
 
+1. VGA Monitor
+2. Speakers
+
+the inputs to the DE2 are: 
+
+1. Computer that runs the Altera University Monitor Program
+2. Keyboard
+
+### Setup
+
+### Demonstration
