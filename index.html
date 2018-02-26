@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Gokul Kaushik</title>
+    <title>2048 on FPGA</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <style>
 body{
@@ -43,18 +43,18 @@ li {
 }
 
 .header {
-	text-align: right;
-	padding: 0;
+    text-align: right;
+    padding: 0;
 }
 
 .footer {
-	width: 600pt;
+    width: 600pt;
     margin-top: 32pt;
     padding-bottom: 32pt;
-	padding-top: 32pt;
-	text-align: center !important;
-/*	color: #D3D3D3;*/
-	border-top: 3px solid black;
+    padding-top: 32pt;
+    text-align: center !important;
+/*  color: #D3D3D3;*/
+    border-top: 3px solid black;
 /*    font-family: sans-serif;*/
     font-size: 16pt;
     text-align: left;
@@ -62,39 +62,86 @@ li {
     </style>
   </head>
   <body>
-    <center>		
+    <center>        
     <h1>
-2048 in FPGA 
+2048 on FPGA
     </h1>
     <p>
-    An implementation of the popular game 2048 on the Altera DE2 board using a mix of Nios-2 assembler language and C. 
-    It was submitted for the project component of the ECE243: Computer Organization course at UofT.
+    An implementation of the popular game 2048 on the Altera DE2 board by <a>Gokul Kaushik</a> and <a>Henry Chen</a>. 
     </p>
     
     <h2>
 Results
     </h2>
+    <p></p>
 
     <h2>
-Challenges
-    <p> This project was both fun and challenging to work on at the time. Our efforts were primarily divided on: 
+Background Info
+    </h2>
+    <ul>
+    <li>
+        The project was made with the intention of fulfilling the project component of the <a href="">Computer Organization course (ECE243)</a>. 
+    </li>
+    <li>
+        Design decisions were primarily determined by course requirements.
+    </li>
+    <li>
+        The game (2048) was popularized by <a href="https://gabrielecirulli.com/">Gabriele Cirulli's</a> playable version available <a href="http://gabrielecirulli.github.io/2048/">here</a>.
+    </li>
+    <li>
+        Links: the <a>code</a> and the <a>project report</a>..
+    </li>
+    </ul>
+
+    <h2>
+Gameplay Tutorial
+    </h2>  
+    <p>
+    To have a better understanding of the game, you can play Gabriel Cirulli's version <a href="http://gabrielecirulli.github.io/2048/">here</a>.
+    </p>
+    <ul>
+    <li>The game consists of a 4-by-4 grid (16 tiles in total) of blocks.</li>
+    <li>Tiles are empty initially and the game starts with a tile with the number 2.</li>            
+    <li>You can use the arrow keys: up, down, left and right to move the tile in the respective direction accross the grid.</li>
+    <li>For every move made, the game introduces a new number tile into a random grid.</li>
+    <li>Usually the starting point is on the lowst empty row and the number is 2. However, as the game progresses, tiles of increasing number are introduced.</li>
+    <li>When a key is pressed in any directions, tiles of equal value are merged to form their sum. The basic tile is 2 and all tiles merged form a value that is a power of 2.</li>
+    <li>The victory condition is to keep merging tiles of equal value until you reach 2048 (hence the name).</li>
+    <li>The game is lost when the 16 block grid is full and there can be no possible merges (resulting in a stagnant grid).</li>    
+    </ul>
+
+    <h2>
+Design Decisions
+    </h2> 
     <ul>
     </ul>
+    
+    <h2>
+Project Requriements
+    </h2>
+    <ul>
+    </ul>
+
+    <h2>
+Setup
+    </h2>
+    <ul>
+    </ul>
+
+
+    <p>
     </p>
 
-    <h2>
-Requriements and Project Setup
-    <h2>
-    <p> You can also refer to the project <a href="">repository's README file</a>. The same content is outlined below.</p>
-    
-Misc
-
-	<!-- <hr> -->
+    <!-- <hr> -->
     <p class="footer">
-		<a href="">Email</a> | <a href="">LinkedIn</a> | <a href="">Github</a> | <a href="">Resume</a>
+        <a href="">Code</a> | <a href="">Gokul Kaushik</a> | <a href="">Henry Chen</a> | <a href="">Gabriel Cirulli's 2048</a>
 
     <br><br>
     </p>
     </center>
   </body>
 </html>
+
+<script>
+
+</script>
