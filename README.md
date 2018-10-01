@@ -22,7 +22,7 @@ The project requires the following hardware and software to run:
 6. Keyboard (Connected to USB/JTAG-UART)
 7. Speakers (to audio jack)
 
-The I/O connections are viewable [here](documents/io_diagram.jpg). Please refer to the project's proposal [documentation](https://github.com/kaushikg94/Nios-2-Assembly-2048-game/blob/master/Documents/ProjectProposalForm.docx) for more details.
+The I/O connections are viewable [here](Documents/io_diagram.jpg). Please refer to the project's proposal [documentation](https://github.com/kaushikg94/Nios-2-Assembly-2048-game/blob/master/Documents/ProjectProposalForm.docx) for more details.
 
 
 ## Project Details
